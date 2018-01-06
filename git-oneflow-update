@@ -1,16 +1,26 @@
 #!/bin/sh
 
+# Does this need to be smarter for each host OS?
+if [ -z "$INSTALL_PREFIX" ] ; then
+        INSTALL_PREFIX="/usr/local/bin"
+fi
+
+if [ -z "$REPO_ZIP_URL" ] ; then
+        REPO_ZIP_URL="https://github.com/euknyaz/oneflow/archive/master.zip"
+fi
+
 if [[ "$1" = "--h" ]] ; then
    echo "Updates the oneflow toolset to the latest version: ";
    echo "  - git oneflow-update";
    echo ""
-   echo "This command will retrieve the latest version from the master repository of https://github.com/StevenThuriot/oneflow"
+   echo "This command will retrieve the latest version from $REPO_ZIP_URL"
    exit 1;
 fi
 
-cd "`dirname $0`"
-wget https://github.com/StevenThuriot/oneflow/archive/master.zip --no-check-certificate -O oneflow.zip
-unzip -o oneflow.zip
-rm oneflow.zip
-mv oneflow-master/git* ./ -f
-rm -rf oneflow-master
+TMP_ZIPFILE=/tmp/oneflow.zip
+TMP_DIR=/tmp/oneflow-master
+wget $REPO_ZIP_URL --no-check-certificate -O $TMP_ZIPFILE
+unzip -d /tmp -o $TMP_ZIPFILE
+chmod 755 $TMP_DIR/git*
+mv -f $TMP_DIR/git* $INSTALL_PREFIX
+rm -rf $TMP_ZIPFILE $TMP_DIR

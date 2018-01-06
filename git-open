@@ -1,19 +1,16 @@
 #!/bin/sh
-set -e
+#set -e
 
 if [[ "$1" = "--h" ]] ; then
    echo "Opens the current git repo on the web.";
    exit 1;
 fi
 
-if ! [ -d .git ] ; then
-	if ! [ $(git rev-parse --is-inside-work-tree &>/dev/null; echo "${?}") == '0' ] ; then
-		echo "Current directory is not a git folder."
-		exit 1;
-	fi
-fi
+[ -d .git ] || git rev-parse --is-inside-work-tree > /dev/null 2>&1 || ( echo "Current directory is not a git folder." && exit 1);
 
 originUrl=$(git config --get remote.origin.url)
+REPO_URL=`git config --get remote.origin.url | sed -Ene's#git@github.com:([^[:space:]]*)\.git#https://github.com/\1#p'`
+echo $REPO_URL
 
 case $( uname -s ) in
   Darwin)  open='open';;
@@ -23,11 +20,5 @@ case $( uname -s ) in
   *)       open='xdg-open';;
 esac
 
-# Allow printing the url if BROWSER=echo
-if [[ $BROWSER != "echo" ]]; then
-  exec &>/dev/null
-fi
-
-
 # open it in a browser
-${BROWSER:-$open} "$originUrl"
+${BROWSER:-$open} "$REPO_URL"

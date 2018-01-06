@@ -8,15 +8,15 @@ Add these to a folder that is included in your path variable. You can then call 
 
 - Starting a workflow
 ```sh
- $ git feature <name>
- $ git issue <id>
- $ git release  <version> [startingPoint]
- $ git hotfix <version> [tag]
+ $ git flow feature <name>
+ $ git flow issue <id>
+ $ git flow release  <version> [startingPoint]
+ $ git flow hotfix <version> [tag]
  ```
  
  - Ending that workflow
  ```sh
- $ git finish [annotation]
+ $ git flow finish [annotation]
  ```
  
  - Useful tooling during said workflow
@@ -28,8 +28,6 @@ Add these to a folder that is included in your path variable. You can then call 
  
  $ git oneflow-update
  $ git oneflow-version
- 
- $ git update-sub
 ```
 
 You can pass `--h` for a short readme, as follows:
