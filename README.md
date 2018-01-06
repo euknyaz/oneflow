@@ -31,6 +31,7 @@ Available subcommands are:
    finish  [annotation] - finish work on feature/release/hotfix branches.
    latest - checkout master branch.
    latest-tag - checkout latest tag from master branch.
+   build-version - displays build version for current branch.
    open - open browser with git project url.
 
 Try 'git flow <subcommand> help' for details.
@@ -80,11 +81,11 @@ git flow release 1.0.0
 
 # I do some work with release
 git commit -m "First commit" [some-file]
-# git describe version: v1.0.0-rc-1-g<commitid1-id>
+# git flow build-version: v1.0.0-rc-1-g<commitid1-id>
 git commit -m "Second commit" [some-file]
-# git describe version: v1.0.0-rc-2-g<commitid2-id>
+# git flow build-version: v1.0.0-rc-2-g<commitid2-id>
 git cherry-pick [some-master-commit-id]
-# git describe version: v1.0.0-rc-3-g<commitid3-id>
+# git flow build-version: v1.0.0-rc-3-g<commitid3-id>
 
 git flow finish
 # Added tag v1.0.0
@@ -104,11 +105,11 @@ git flow release 1.1.0 v1.0.0
 
 # I do some work with release
 git commit -m "First commit" [some-file]
-# git describe version: v1.1.0-rc-1-g<commitd1-id>
+# git flow build-version: v1.1.0-rc-1-g<commitd1-id>
 git commit -m "Second commit" [some-file]
-# git describe version: v1.1.0-rc-1-g<commitd1-id>
+# git flow build-version: v1.1.0-rc-1-g<commitd1-id>
 git cherry-pick [some-master-commit-id]
-# git describe version: v1.1.0-rc-1-g<commitd1-id>
+# git flow build-version: v1.1.0-rc-1-g<commitd1-id>
 
 git flow finish
 # Added tag v1.1.0
@@ -118,7 +119,7 @@ git flow finish
 # It's ok to remove as soon as we have tag in master and can restore at any time
 ```
 
-* I need to create **hotfix** v1.1.1 (the last number represents id of hotfix)
+* I need to create **hotfix** v1.1.1 (the last number represents id of patch/hotfix)
 ```bash
 # creating release from v1.1.0 tag
 git flow hotfix 1.1.1 v1.1.0
@@ -128,11 +129,11 @@ git flow hotfix 1.1.1 v1.1.0
 
 # I do some work with release
 git commit -m "First commit" [some-file]
-# git describe version: v1.1.0-1-g<commitid1-id>
+# git flow build-version: v1.1.1-hotfix-1-g<commitid1-id>
 git commit -m "Second commit" [some-file]
-# git describe version: v1.1.0-2-g<commitid2-id>
+# git flow build-version: v1.1.1-hotfix-2-g<commitid2-id>
 git cherry-pick [some-master-commit-id]
-# git describe version: v1.1.0-3-g<commitid3-id>
+# git flow build-version: v1.1.1-hotfix-3-g<commitid3-id>
 
 git flow finish
 # Added tag v1.1.1
@@ -153,11 +154,11 @@ git flow feature payouts
 
 # I do some work with release
 git commit -m "First commit" [some-file]
-# git describe version: v1.1.1-payouts-1-g<commitid1-id>
+# git describe version: v1.1.1-feature-payouts-1-g<commitid1-id>
 git commit -m "Second commit" [some-file]
-# git describe version: v1.1.1-payouts-2-g<commitid2-id>
+# git describe version: v1.1.1-feature-payouts-2-g<commitid2-id>
 git cherry-pick [some-master-commit-id]
-# git describe version: v1.1.1-payouts-3-g<commitid3-id>
+# git describe version: v1.1.1-feature-payouts-3-g<commitid3-id>
 
 git flow finish
 # Running rebase -i master
