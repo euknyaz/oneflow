@@ -23,7 +23,6 @@ latestTag=$(git describe --tags `git rev-list --tags --max-count=1`)
 latestVersion=$(git describe --tags)
 latestRev=$(echo $latestVersion | sed "s/^$latestTag//")
 branch=$(git rev-parse --abbrev-ref HEAD)
-branch="master"
 branchName=$(echo $branch| cut -d'/' -f 1)
 branchVersion=$(echo $branch| cut -d'/' -f 2 |sed 's/^v//g')
 VERSION=
