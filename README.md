@@ -10,7 +10,7 @@ The tooling in this repo is based on feature branch scenario 3 (rebase + no ff),
 
 Simple installation procedure, which should place git-flow and other scripts to /usr/local/bin dir.
 ```
-wget --no-check-certificate -q -O - https://github.com/euknyaz/oneflow/raw/master/git-oneflow-update.sh | sudo bash
+wget --no-check-certificate -q -O - https://github.com/euknyaz/oneflow/raw/master/git-oneflow-update | sudo bash
 ```
 ## Usage
 
