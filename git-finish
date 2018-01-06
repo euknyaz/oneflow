@@ -48,10 +48,12 @@ fi
 create_pullrequest () {
 git push origin $1
 originUrl=`git config --get remote.origin.url | sed -Ene's#git@github.com:([^[:space:]]*)\.git#https://github.com/\1#p'`
-
+branchUrlEncode=`echo "$1" | sed 's/ /%20/g;s/!/%21/g;s/"/%22/g;s/#/%23/g;s/\$/%24/g;s/\&/%26/g;s/'\''/%27/g;s/(/%28/g;s/)/%29/g;s/:/%3A/g'`
 vsoRegex=".visualstudio.com"
 if [[ "$originUrl" =~ $vsoRegex ]] ; then
-   originUrl="$originUrl/pullrequestcreate?targetRef=master&sourceRef=$1"
+   originUrl="$originUrl/pullrequestcreate?targetRef=master&sourceRef=$branchUrlEncode"
+else
+   originUrl="$originUrl/compare/master...$branchUrlEncode?expand=1&title=$branchUrlEncode"
 fi	
 
 case $( uname -s ) in
