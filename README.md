@@ -80,8 +80,11 @@ git flow release 1.0.0
 
 # I do some work with release
 git commit -m "First commit" [some-file]
+# git describe version: v1.0.0-rc-1-g<commitid1-id>
 git commit -m "Second commit" [some-file]
+# git describe version: v1.0.0-rc-2-g<commitid2-id>
 git cherry-pick [some-master-commit-id]
+# git describe version: v1.0.0-rc-3-g<commitid3-id>
 
 git flow finish
 # Added tag v1.0.0
@@ -101,8 +104,11 @@ git flow release 1.1.0 v1.0.0
 
 # I do some work with release
 git commit -m "First commit" [some-file]
+# git describe version: v1.1.0-rc-1-g<commitd1-id>
 git commit -m "Second commit" [some-file]
+# git describe version: v1.1.0-rc-1-g<commitd1-id>
 git cherry-pick [some-master-commit-id]
+# git describe version: v1.1.0-rc-1-g<commitd1-id>
 
 git flow finish
 # Added tag v1.1.0
@@ -118,12 +124,15 @@ git flow finish
 git flow hotfix 1.1.1 v1.1.0
 
 # i'm in release/1.1.1 branch now
-# with tag v1.1.1-rc (release candidate)
+# but with previous version tag v1.1.0
 
 # I do some work with release
 git commit -m "First commit" [some-file]
+# git describe version: v1.1.0-1-g<commitid1-id>
 git commit -m "Second commit" [some-file]
+# git describe version: v1.1.0-2-g<commitid2-id>
 git cherry-pick [some-master-commit-id]
+# git describe version: v1.1.0-3-g<commitid3-id>
 
 git flow finish
 # Added tag v1.1.1
@@ -144,11 +153,11 @@ git flow feature payouts
 
 # I do some work with release
 git commit -m "First commit" [some-file]
-# git describe version: v1.1.1-payouts-1-g<commid1-id>
+# git describe version: v1.1.1-payouts-1-g<commitid1-id>
 git commit -m "Second commit" [some-file]
-# git describe version: v1.1.1-payouts-2-g<commid2-id>
+# git describe version: v1.1.1-payouts-2-g<commitid2-id>
 git cherry-pick [some-master-commit-id]
-# git describe version: v1.1.1-payouts-3-g<commid3-id>
+# git describe version: v1.1.1-payouts-3-g<commitid3-id>
 
 git flow finish
 # Running rebase -i master
