@@ -29,3 +29,15 @@ fi
 
 echo Starting release $1
 git checkout -b release/$1 $head
+
+# Tag just created feature branch with lightweight tag: v$version-$feature
+# This tag should not be merged to master (it's a branch local tag)
+# tag is going to be used
+branch=$(git rev-parse --abbrev-ref HEAD)
+branchName=$(echo $branch| cut -d'/' -f 1)
+branchVersion=$(echo $branch| cut -d'/' -f 2 |sed 's/^v//g')
+VERSION="v${branchVersion}-rc"
+echo "Tagging branch release/$1 wish version $VERSION as release candidate (rc)"
+echo "Please note: it's a lightweight tag to track version, while we working on release"
+echo "             final tag for release should be annotated: v$branchVersion"
+# git tag "$VERSION"
