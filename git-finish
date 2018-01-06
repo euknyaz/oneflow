@@ -45,17 +45,14 @@ if [[ "$(git branch -a | egrep "remotes/origin/$1" | wc -l)" = "1" ]]; then
 fi
 }
 
-uri_escape(){	local y=$@:s/\\/\\\\/; for i in `seq 1 ${#y}`; do [[ "${y[i]}" =~ '[a-zA-Z0-9/.:?&=]' ]] && echo -n ${y[i]} || printf %%%x \'${y[i]}; done }
-
 create_pullrequest () {
 git push origin $1
 originUrl=`git config --get remote.origin.url | sed -Ene's#git@github.com:([^[:space:]]*)\.git#https://github.com/\1#p'`
-branchUrlEncode=`uri_escape $1`
 vsoRegex=".visualstudio.com"
 if [[ "$originUrl" =~ $vsoRegex ]] ; then
    originUrl="$originUrl/pullrequestcreate?targetRef=master&sourceRef=${branchUrlEncode}"
 else
-   originUrl="$originUrl/compare/master...${branchUrlEncode}?expand=1&title=${branchUrlEncode}"
+   originUrl="$originUrl/compare/master...$1?expand=1&title=$1"
 fi	
 
 case $( uname -s ) in
