@@ -15,3 +15,11 @@ fi
 
 echo Starting feature $1
 git checkout -b feature/$1 $masterBranch
+
+# Tag just created feature branch with lightweight tag: v$version-$feature
+# This tag should not be merged to master (it's a branch local tag)
+# tag is going to be used
+branch=$(git rev-parse --abbrev-ref HEAD)
+branchName=$(echo $branch| cut -d'/' -f 1 | sed 's/[^\w\d]//g')
+branchVersion=$(git describe --tags | cut -d'-' -f 1 |sed 's/^v//g')
+git tag "v$branchVersion-$branchName"

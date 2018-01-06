@@ -23,10 +23,6 @@ branchName=$(echo $branch| cut -d'/' -f 1)
 branchVersion=$(echo $branch| cut -d'/' -f 2 |sed 's/^v//g')
 VERSION="v${branchVersion}"
 
-# Tag just created feature branch with lightweight tag: v$version-$feature
-# This tag should not be merged to master (it's a branch local tag)
-# tag is going to be used
-
 cleanup_localbranch () {
 echo "Do you wish to delete the local branch $1?"
 select yn in "Yes" "No"; do
@@ -86,7 +82,7 @@ if [[ $branch =~ ^(feature|issue).* ]]; then
 	git rebase -i $masterBranch		
 elif [[ $branch =~ ^(release|hotfix).* ]]; then
     echo Tagging last commit of release branch with annotated tag: $VERSION
-    echo You can\'t apply changes to this branch anymore. Use hotfixe for further changes.
+    echo You can\'t apply changes to this branch anymore. Use hotfix for further changes.
 	
 	if [ "$1" = "" ]; then
 		git tag -a "$VERSION" -m "$VERSION"
