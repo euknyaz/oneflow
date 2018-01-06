@@ -67,3 +67,94 @@ $ git hotfix --h
 ```
 
 _( Where <> is required, [] is optional )_
+
+
+## Use Cases
+
+* I need to create my first **major release** v1.0.0
+```bash
+git flow release 1.0.0
+
+# i'm in release/1.0.0 branch now
+# with tag v1.0.0-rc (release candidate)
+
+# I do some work with release
+git commit -m "First commit" [some-file]
+git commit -m "Second commit" [some-file]
+git cherry-pick [some-master-commit-id]
+
+git flow finish
+# Added tag v1.0.0
+# My changes merged to master (with tag v1.0.0)
+# Switched to master
+# Asked if I want to remove release/1.0.0 branch
+# It's ok to remove as soon as we have tag in master and can restore at any time
+```
+
+* I need to create **minor release** v1.1.0
+```bash
+# creating release from v1.0.0 tag
+git flow release 1.1.0 v1.0.0
+
+# i'm in release/1.1.0 branch now
+# with tag v1.1.0-rc (release candidate)
+
+# I do some work with release
+git commit -m "First commit" [some-file]
+git commit -m "Second commit" [some-file]
+git cherry-pick [some-master-commit-id]
+
+git flow finish
+# Added tag v1.1.0
+# My changes merged to master (with tag v1.1.0)
+# Switched to master
+# Asked if I want to remove release/1.1.0 branch
+# It's ok to remove as soon as we have tag in master and can restore at any time
+```
+
+* I need to create **hotfix** v1.1.1 (the last number represents id of hotfix)
+```bash
+# creating release from v1.1.0 tag
+git flow hotfix 1.1.1 v1.1.0
+
+# i'm in release/1.1.1 branch now
+# with tag v1.1.1-rc (release candidate)
+
+# I do some work with release
+git commit -m "First commit" [some-file]
+git commit -m "Second commit" [some-file]
+git cherry-pick [some-master-commit-id]
+
+git flow finish
+# Added tag v1.1.1
+# My changes merged to master (with tag v1.1.1)
+# Switched to master
+# Asked if I want to remove release/1.1.1 branch
+# It's ok to remove as soon as we have tag in master and can restore at any time
+```
+
+* I need to create **feature** "payouts"
+```bash
+# creating feature from master branch always
+git flow feature payouts
+
+# i'm in feature/payouts branch now
+# current build version calculated as v1.1.1-payouts (v1.1.1 is latest tag in master)
+# I have tag v1.1.1-payouts added to the first commit in branch
+
+# I do some work with release
+git commit -m "First commit" [some-file]
+# git describe version: v1.1.1-payouts-1-g<commid1-id>
+git commit -m "Second commit" [some-file]
+# git describe version: v1.1.1-payouts-2-g<commid2-id>
+git cherry-pick [some-master-commit-id]
+# git describe version: v1.1.1-payouts-3-g<commid3-id>
+
+git flow finish
+# Running rebase -i master
+# Asked what I'd prefer merge or pull-request
+# My changes merged to master (without a new tag)
+# Switched to master
+# Asked if I want to remove feature/payouts branch
+# It's ok to remove as soon as we merge record in master and can restore at any time
+```
