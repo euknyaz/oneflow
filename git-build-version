@@ -1,0 +1,45 @@
+#!/bin/sh
+set -e
+
+if [[ "$1" = "--h" ]] ; then
+   echo "Returns build version for current branch.";
+   echo "Format:";
+   echo "  v1.0.0 - release version";
+   echo "  v1.0.0-1-g12f56 - changes on top of release version (may be hotfix or current development)";
+   echo "  v1.1.0-rc - release candidate version";
+   echo "  v1.1.0-rc-1-g12f56 - release candidate ongoing changes";
+   echo "  v1.1.1-hotfix - hotfix candidate";
+   echo "  v1.1.1-hotfix-1-g12f56 - hotfix candidate ongoing changes";
+   echo "  v1.1.1 - hotfix release";
+   echo "  v1.0.0-feature-payouts - feature first commit on top of latest detected version";
+   echo "  v1.0.0-feature-payouts-1-g12f56 - feature ongoing changes on top of latest detected version";
+   exit 1;
+fi
+
+[ -d .git ] || git rev-parse --is-inside-work-tree > /dev/null 2>&1 || ( echo "Current directory is not a git folder." && exit 1);
+
+git fetch --tags
+latestTag=$(git describe --tags `git rev-list --tags --max-count=1`)
+latestVersion=$(git describe --tags)
+latestRev=$(echo $latestVersion | sed "s/^$latestTag//")
+branch=$(git rev-parse --abbrev-ref HEAD)
+branch="master"
+branchName=$(echo $branch| cut -d'/' -f 1)
+branchVersion=$(echo $branch| cut -d'/' -f 2 |sed 's/^v//g')
+VERSION=
+if [[ $branchName = "feature" ]]; then
+	branchName=$(echo $branch| cut -d'/' -f 2)
+	VERSION="$latestTag-feature-$branchName$latestRev"
+elif [[ $branchName = "release" ]]; then
+	VERSION="v$branchVersion-rc$latestRev"
+elif [[ $branchName = "hotfix" ]]; then
+	VERSION="v$branchVersion-hotfix$latestRev"
+else
+    if [[ -z $latestRev ]]; then
+	    VERSION="$latestTag"
+	else
+	    VERSION="$latestTag-$branchName$latestRev"
+	fi
+fi
+
+echo $VERSION 
