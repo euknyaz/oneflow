@@ -1,24 +1,24 @@
 #!/bin/sh
 set -e
 masterBranch="master"
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 if [[ $# = 0 ]] || [[ "$1" = "--h" ]] || [[ "$1" = "help" ]] ; then
-   echo "usage: git flow <subcommand>"
+    echo "usage: git flow <subcommand>"
 	echo
 	echo "Available subcommands are:"
 	echo "   help - help info."
 	echo "   feature <name> - create feature branches."
-	echo "   finish [annotation] - finish work on feature/release/hotfix branches."
-	echo "   hotfix <version> [tag] - Create hotfix version based on provided tag or latest tag."
+	echo "   release <version> [startingCommit] - create release branch for <version> based on [statingCommit]."
 	echo "   issue <issue-id> - create issue branch for issue-id."
+	echo "   hotfix <version> [tag] - Create hotfix version based on provided tag or latest tag."
+	echo "   finish [annotation] - finish work on feature/release/hotfix branches."
 	echo "   latest - checkout master branch."
 	echo "   latest-tag - checkout latest tag from master branch."
-	echo "   release <version> [startingCommit] - create release branch for <version> based on [statingCommit]."
 	echo "   open - open browser with git project url."
 	echo
 	echo "Try 'git flow <subcommand> help' for details."
-   exit 1;
+    exit 1;
 fi
 
 [ -d .git ] || git rev-parse --is-inside-work-tree > /dev/null 2>&1 || ( echo "Current directory is not a git folder." && exit 1);
@@ -26,7 +26,7 @@ fi
 ACCEPTED_SUBCOMMANDS=("feature" "finish" "hotfix" "issue" "latest" "latest-tag" "release" "open");
 SUBCOMMAND="$1"; shift;
 if [[ " ${ACCEPTED_SUBCOMMANDS[@]} " =~ " ${SUBCOMMAND} " ]]; then
-	source $DIR/git-$SUBCOMMAND;
+	source $SCRIPT_DIR/git-$SUBCOMMAND;
 else
 	echo "unrecognized parameters.";
   	echo "try 'git flow help' for available options.";
