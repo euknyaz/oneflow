@@ -169,3 +169,4 @@ git flow finish
 # It's ok to remove as soon as we merge record in master and can restore at any time
 ```
 
+current version: v1.2.0
