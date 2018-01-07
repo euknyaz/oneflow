@@ -168,3 +168,4 @@ git flow finish
 # Asked if I want to remove feature/payouts branch
 # It's ok to remove as soon as we merge record in master and can restore at any time
 ```
+
